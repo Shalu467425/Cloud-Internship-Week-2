@@ -1,121 +1,96 @@
-# ☁️ Cloud Internship – Week 2
+# ☁️ Cloud Internship — Week 2
 
-[![Level](https://img.shields.io/badge/Level-Beginner-brightgreen)]()
-[![Product](https://img.shields.io/badge/Product-Azure-blue)]()
-[![Role](https://img.shields.io/badge/Role-Administrator%20%7C%20Developer%20%7C%20DevOps%20Engineer%20%7C%20Solution%20Architect-purple)]()
-[![Subject](https://img.shields.io/badge/Subject-Cloud%20Computing%20%7C%20Architecture%20%7C%20Technical%20Infrastructure-orange)]()
+![Azure](https://img.shields.io/badge/Microsoft%20Azure-0078D4?logo=microsoftazure&logoColor=white)
+![Beginner Level](https://img.shields.io/badge/Level-Beginner-green)
+![Role](https://img.shields.io/badge/Role-Administrator%20%7C%20Developer%20%7C%20DevOps%20Engineer%20%7C%20Solution%20Architect-blue)
+![Subject](https://img.shields.io/badge/Subject-Cloud%20Computing%20%7C%20Azure%20Architecture%20%7C%20Infrastructure-orange)
 
-> **Description:**  
-> Documentation of **Week 2 Cloud Internship** tasks focused on *Introduction to Microsoft Azure* — exploring Azure architecture, services, and hands-on labs in the Microsoft Learn Sandbox.
-
----
-
-## 📚 Table of Contents
-- [Exercise 1 – Explore the Learn Sandbox](#exercise-1)
-- [Exercise 2 – Create an Azure Resource](#exercise-2)
-- [Exercise 3 – Create a Linux VM and Install Nginx](#exercise-3)
-- [Exercise 4 – Configure Network Access](#exercise-4)
-- [Exercise 5 – Create and Configure a Storage Blob](#exercise-5)
-- [Cleanup Notes](#cleanup-notes)
+## 📖 Overview
+This document records the **Week 2** tasks completed during the Cloud Internship, focusing on exploring the Microsoft Azure environment, creating resources, configuring networking, and managing storage.
 
 ---
 
-## <a name="exercise-1"></a>Exercise 1 – Explore the Learn Sandbox
-<details>
-<summary>▶ View Details</summary>
+## 🏗 Introduction to Microsoft Azure
+Microsoft Azure is a cloud computing platform that provides a wide range of services, including:
+- **Compute** (Virtual Machines, Functions, App Services)
+- **Networking** (Virtual Networks, Load Balancers, Firewalls)
+- **Storage** (Blob, Table, Queue, File)
+- **Databases** (SQL Database, Cosmos DB, PostgreSQL)
+- **AI & Analytics** (Cognitive Services, Synapse Analytics)
 
-**Tasks:**
-1. Use the **PowerShell CLI**
-2. Use the **Bash CLI**
-3. Use **Azure CLI Interactive Mode**
-
-📌 *This exercise was performed entirely in the Azure Sandbox environment.*
-
-🖼 *[Screenshot Placeholder – CLI in action]*
-
-</details>
+The architecture typically consists of:
+1. **Frontend** — Azure Portal, CLI, SDKs, and APIs for user interaction.
+2. **Control Plane** — Manages resources, authentication, and orchestration.
+3. **Data Plane** — Handles the actual operations (e.g., reading/writing data, serving applications).
 
 ---
 
-## <a name="exercise-2"></a>Exercise 2 – Create an Azure Resource
-<details>
+## 📌 Exercises
 
-<summary>▶ View Details</summary>
-  
-**Steps:**
-1. Sign in to the Azure Portal.
-2. Navigate to **Create a resource → Virtual Machine → Create**.
-3. Fill in the required values in the *Basics* tab.
-4. Click **Review + Create** → **Create**.
+### **Exercise 1 — Explore the Learn Sandbox**
+- **Task 1:** Use the PowerShell CLI  
+- **Task 2:** Use the Bash CLI  
+- **Task 3:** Use Azure CLI Interactive Mode  
 
-### Verify Resources
-1. Go to **Home → Resource Groups**.
-2. Select the sandbox-created resource group.
-   
-</details>
+_All tasks were performed in the Azure Learn Sandbox._
 
-## <a name="exercise-3"></a>Exercise 3 – Create a Linux VM and Install Nginx
-<details>
-<summary>▶ View Details</summary>
+---
 
-### Create VM
+### **Exercise 2 — Create an Azure Resource**
+**Task 1:** Create a Virtual Machine in Azure Portal
+1. Sign in to the Azure portal.
+2. **Create a Resource** → Select **Virtual Machine** → **Create**.
+3. Fill in basic settings, leaving unspecified values at default.
+4. Select **Review + Create** → **Create**.
+
+**Task 2:** Verify Resources
+1. Navigate to **Home** → **Resource Groups**.
+2. Select the sandbox resource group.
+3. Confirm the created resources are listed.
+
+_Cleanup is done automatically by the sandbox._
+
+---
+
+### **Exercise 3 — Create an Azure Virtual Machine (CLI)**
+**Task:** Deploy a Linux Virtual Machine
 ```bash
 az vm create \
-  --resource-group "learn-dda93b6b-4853-4cef-83db-5ab31ab6526d" \
+  --resource-group "<sandbox-resource-group>" \
   --name my-vm \
   --public-ip-sku Standard \
   --image Ubuntu2204 \
   --admin-username azureuser \
   --generate-ssh-keys
 
-Install & Configure Nginx
-
-az vm extension set \
-  --resource-group "learn-dda93b6b-4853-4cef-83db-5ab31ab6526d" \
-  --vm-name my-vm \
-  --name customScript \
-  --publisher Microsoft.Azure.Extensions \
-  --version 2.1 \
-  --settings '{"fileUris":["https://raw.githubusercontent.com/MicrosoftDocs/mslearn-welcome-to-azure/master/configure-nginx.sh"]}' \
-  --protected-settings '{"commandToExecute": "./configure-nginx.sh"}'
-
-</details>
-
-## <a name="exercise-4"></a>Exercise 4 – Configure Network Access
-
-<details>
-
-<summary>▶ View Details</summary>
-
-Get VM IP
+Exercise 4 — Configure Network Access
+Task 1: Retrieve VM Public IP
 
 IPADDRESS="$(az vm list-ip-addresses \
---resource-group "learn-dda93b6b-4853-4cef-83db-5ab31ab6526d" \
+--resource-group "<sandbox-resource-group>" \
 --name my-vm \
 --query "[].virtualMachine.network.publicIpAddresses[*].ipAddress" \
 --output tsv)"
 
 echo $IPADDRESS
-Test Connection
+Use curl to test connectivity:
 
 curl --connect-timeout 5 http://$IPADDRESS
-
-List NSG Rules
+Task 2: View Current Network Security Rules
 
 az network nsg list \
-  --resource-group "learn-7dc5d339-701e-4c92-9906-832b73c8d617" \
-  --query '[].name' \
-  --output tsv
+  --resource-group "<sandbox-resource-group>" \
+  --query '[].name' --output tsv
 
 az network nsg rule list \
-  --resource-group "learn-7dc5d339-701e-4c92-9906-832b73c8d617" \
+  --resource-group "<sandbox-resource-group>" \
   --nsg-name my-vmNSG \
   --query '[].{Name:name, Priority:priority, Port:destinationPortRange, Access:access}' \
   --output table
-Create HTTP Rule
+Task 3: Allow HTTP Traffic
 
 az network nsg rule create \
-  --resource-group "learn-7dc5d339-701e-4c92-9906-832b73c8d617" \
+  --resource-group "<sandbox-resource-group>" \
   --nsg-name my-vmNSG \
   --name allow-http \
   --protocol tcp \
@@ -123,44 +98,55 @@ az network nsg rule create \
   --destination-port-range 80 \
   --access Allow
 
-</details>
+Verify:
 
-##<a name="exercise-5"></a>Exercise 5 – Create and Configure a Storage Blob
+az network nsg rule list \
+  --resource-group "<sandbox-resource-group>" \
+  --nsg-name my-vmNSG \
+  --query '[].{Name:name, Priority:priority, Port:destinationPortRange, Access:access}' \
+  --output table
+Exercise 5 — Create and Manage Storage Blob
+Task 1: Create a Storage Account
 
-<details>
+Azure Portal → Create a Resource → Storage Account → Create.
 
-<summary>▶ View Details</summary>
+Fill in:
 
-| Setting                    | Value                           |
-| -------------------------- | ------------------------------- |
-| Subscription               | Concierge Subscription          |
-| Resource Group             | Sandbox resource group          |
-| Storage Account Name       | *Unique name*                   |
-| Performance                | Standard                        |
-| Redundancy                 | Locally Redundant Storage (LRS) |
-| Anonymous Container Access | Enabled                         |
+Subscription: Concierge Subscription
 
-Create Container & Upload Blob
---Navigate to Data Storage → Containers → + Container
+Resource Group: Sandbox resource group
 
---Access Level: Private
+Storage Account Name: Unique name
 
---Upload a file
+Performance: Standard
 
---Copy Blob URL & verify access
+Redundancy: Locally Redundant Storage (LRS)
 
-Change Blob Access Level
---Set Anonymous Access Level to Blob
+Anonymous Access: Enabled (on individual containers)
 
--- Refresh browser tab to confirm public access
+Review + Create → Create → Go to Resource.
 
-🧹 Cleanup Notes
---Sandbox cleans up automatically.
---In personal subscriptions:
---Delete unused resources
---Or delete entire resource group to save costs
+Task 2: Create a Blob Container and Upload a File
 
-</details> 
+Data Storage → Containers → + Container (set access to Private).
 
-#Azure #CloudComputing #VirtualMachine #Nginx #StorageBlob #MicrosoftLearn #DevOps
+Upload file via Upload option.
+
+Attempt to open the blob URL (expect access denied).
+
+Task 3: Change Blob Access Level
+
+Select the container → Change Access Level → Blob (Anonymous Read Access) → OK.
+
+Refresh blob URL to verify public access.
+
+🧹 Cleanup
+Sandbox automatically deletes all created resources.
+
+In personal subscriptions, remove unused resources to avoid charges:
+
+az group delete --name <resource-group-name> --yes --no-wait
+✅ End of Week 2 Documentation
+
+---
 
