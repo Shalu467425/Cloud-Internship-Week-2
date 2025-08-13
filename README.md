@@ -1,58 +1,68 @@
-# Cloud-Internship-Week-2
+# ☁️ Cloud Internship – Week 2
 
-Documentation of Cloud Internship Week # 2 Tasks
+[![Level](https://img.shields.io/badge/Level-Beginner-brightgreen)]()
+[![Product](https://img.shields.io/badge/Product-Azure-blue)]()
+[![Role](https://img.shields.io/badge/Role-Administrator%20%7C%20Developer%20%7C%20DevOps%20Engineer%20%7C%20Solution%20Architect-purple)]()
+[![Subject](https://img.shields.io/badge/Subject-Cloud%20Computing%20%7C%20Architecture%20%7C%20Technical%20Infrastructure-orange)]()
 
-Introduction to Microsoft Azure: Describe Azure architecture and services
+> **Description:**  
+> Documentation of **Week 2 Cloud Internship** tasks focused on *Introduction to Microsoft Azure* — exploring Azure architecture, services, and hands-on labs in the Microsoft Learn Sandbox.
 
-Level
-Beginner
+---
 
-Product
-Azure
+## 📚 Table of Contents
+- [Exercise 1 – Explore the Learn Sandbox](#exercise-1)
+- [Exercise 2 – Create an Azure Resource](#exercise-2)
+- [Exercise 3 – Create a Linux VM and Install Nginx](#exercise-3)
+- [Exercise 4 – Configure Network Access](#exercise-4)
+- [Exercise 5 – Create and Configure a Storage Blob](#exercise-5)
+- [Cleanup Notes](#cleanup-notes)
 
-Role
-AdministratorDeveloperDevOps EngineerSolution Architect
+---
 
-Subject
-ArchitectureCloud computingTechnical infrastructure
+## <a name="exercise-1"></a>Exercise 1 – Explore the Learn Sandbox
+<details>
+<summary>▶ View Details</summary>
 
-Exercise # 1 : Explore the Learn sandbox
+**Tasks:**
+1. Use the **PowerShell CLI**
+2. Use the **Bash CLI**
+3. Use **Azure CLI Interactive Mode**
 
-Task 1: Use the PowerShell CLI
+📌 *This exercise was performed entirely in the Azure Sandbox environment.*
 
-Task 2: Use the BASH CLI
+🖼 *[Screenshot Placeholder – CLI in action]*
 
-Task 3: Use Azure CLI interactive mode
+</details>
 
-Task 3: Use Azure CLI interactive mode
+---
 
-The above exercise was carried in sandbox azure
+## <a name="exercise-2"></a>Exercise 2 – Create an Azure Resource
+<details>
+<summary>▶ View Details</summary>
 
-Exercise # 2- Create an Azure resource
+**Steps:**
+1. Sign in to the Azure Portal.
+2. Navigate to **Create a resource → Virtual Machine → Create**.
+3. Fill in the required values in the *Basics* tab.
+4. Click **Review + Create** → **Create**.
 
-Exercise - Create an Azure resource
+### Verify Resources
+1. Go to **Home → Resource Groups**.
+2. Select the sandbox-created resource group.
 
-1 Sign in to the Azure portal.
-2 Select Create a resource > Virtual Machine > Create.
-3 The Create a virtual machine pane opens to the basics tab.
-4 Verify or enter the following values for each setting. If a setting isn’t specified, leave the default value.
-5 Select Review and Create.
-6 Select Create
+🖼 *[Screenshot Placeholder – Resource Group List]*
 
-Task 2: Verify resources created
+</details>
 
-1 Select Home.
-2 Select Resource groups.
-3 Select the [sandbox resource group name] resource group.
+---
 
-Clean up - automatic by sandbox
+## <a name="exercise-3"></a>Exercise 3 – Create a Linux VM and Install Nginx
+<details>
+<summary>▶ View Details</summary>
 
-Exercise # 3 : Create an Azure virtual machine
-
-Task # 1 : Task 1: Create a Linux virtual machine and install Nginx
-
-1 From Cloud Shell, run the following az vm create command to create a Linux VM:
-
+### Create VM
+```bash
 az vm create \
   --resource-group "learn-dda93b6b-4853-4cef-83db-5ab31ab6526d" \
   --name my-vm \
@@ -61,7 +71,7 @@ az vm create \
   --admin-username azureuser \
   --generate-ssh-keys
 
-2 Run the following az vm extension set command to configure Nginx on your VM:
+Install & Configure Nginx
 
 az vm extension set \
   --resource-group "learn-dda93b6b-4853-4cef-83db-5ab31ab6526d" \
@@ -71,49 +81,74 @@ az vm extension set \
   --version 2.1 \
   --settings '{"fileUris":["https://raw.githubusercontent.com/MicrosoftDocs/mslearn-welcome-to-azure/master/configure-nginx.sh"]}' \
   --protected-settings '{"commandToExecute": "./configure-nginx.sh"}'
- 
 
-To summarize, the script:
-a. Runs apt-get update to download the latest package information from the internet. This step helps ensure that the next command can locate the latest version of the Nginx package.
-b. Installs Nginx.
-c. Sets the home page, /var/www/html/index.html, to print a welcome message that includes your VM's host name.
+<a name="exercise-4"></a>Exercise 4 – Configure Network Access
+<details> <summary>▶ View Details</summary>
+Get VM IP
 
-Exercise # 4 - Configure network access
-
-Task 1: Access your web server
-
-1 Run the following az vm list-ip-addresses command to get your VM's IP address and store the result as a Bash variable:
-IPADDRESS="$(az vm list-ip-addresses \ 
+IPADDRESS="$(az vm list-ip-addresses \
 --resource-group "learn-dda93b6b-4853-4cef-83db-5ab31ab6526d" \
 --name my-vm \
---query "[].virtualMachine.network.publicIpAddresses[*].ipAddress" \ 
---output tsv)"  
+--query "[].virtualMachine.network.publicIpAddresses[*].ipAddress" \
+--output tsv)"
 
-2. Run the following curl command to download the home page:
+echo $IPADDRESS
+Test Connection
 
 curl --connect-timeout 5 http://$IPADDRESS
 
-3. As an optional step, try to access the web server from a browser:
+List NSG Rules
 
-a. Run the following to print your VM's IP address to the console:
+az network nsg list \
+  --resource-group "learn-7dc5d339-701e-4c92-9906-832b73c8d617" \
+  --query '[].name' \
+  --output tsv
 
-echo $IPADDRESS 
+az network nsg rule list \
+  --resource-group "learn-7dc5d339-701e-4c92-9906-832b73c8d617" \
+  --nsg-name my-vmNSG \
+  --query '[].{Name:name, Priority:priority, Port:destinationPortRange, Access:access}' \
+  --output table
+Create HTTP Rule
 
-You see an IP address, for example, 20.253.160.185
+az network nsg rule create \
+  --resource-group "learn-7dc5d339-701e-4c92-9906-832b73c8d617" \
+  --nsg-name my-vmNSG \
+  --name allow-http \
+  --protocol tcp \
+  --priority 100 \
+  --destination-port-range 80 \
+  --access Allow
 
-b. Copy the IP address that you see to the clipboard.
+<a name="exercise-5"></a>Exercise 5 – Create and Configure a Storage Blob
 
-c. Open a new browser tab and go to your web server. After a few moments, you see that the connection isn't happening. If you wait for the browser to time out, you see something like this:
+| Setting                    | Value                           |
+| -------------------------- | ------------------------------- |
+| Subscription               | Concierge Subscription          |
+| Resource Group             | Sandbox resource group          |
+| Storage Account Name       | *Unique name*                   |
+| Performance                | Standard                        |
+| Redundancy                 | Locally Redundant Storage (LRS) |
+| Anonymous Container Access | Enabled                         |
 
-screen Shot of Web Browser
+Create Container & Upload Blob
+--Navigate to Data Storage → Containers → + Container
 
-d.Keep this browser tab open for later.
+--Access Level: Private
 
+--Upload a file
 
+--Copy Blob URL & verify access
 
-Task 2: List the current network security group rules
+Change Blob Access Level
+--Set Anonymous Access Level to Blob
 
-Task 3: Create the network security rule
+-- Refresh browser tab to confirm public access
 
-Task 4: Access your web server again
+🧹 Cleanup Notes
+--Sandbox cleans up automatically.
+--In personal subscriptions:
+--Delete unused resources
+--Or delete entire resource group to save costs
 
+#Azure #CloudComputing #VirtualMachine #Nginx #StorageBlob #MicrosoftLearn #DevOps
