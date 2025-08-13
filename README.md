@@ -38,7 +38,8 @@
 ---
 
 ## <a name="exercise-2"></a>Exercise 2 – Create an Azure Resource
-
+<details>
+  
 **Steps:**
 1. Sign in to the Azure Portal.
 2. Navigate to **Create a resource → Virtual Machine → Create**.
@@ -48,7 +49,8 @@
 ### Verify Resources
 1. Go to **Home → Resource Groups**.
 2. Select the sandbox-created resource group.
----
+   
+</details>
 
 ## <a name="exercise-3"></a>Exercise 3 – Create a Linux VM and Install Nginx
 <details>
@@ -75,8 +77,12 @@ az vm extension set \
   --settings '{"fileUris":["https://raw.githubusercontent.com/MicrosoftDocs/mslearn-welcome-to-azure/master/configure-nginx.sh"]}' \
   --protected-settings '{"commandToExecute": "./configure-nginx.sh"}'
 
+</details>
+
 ## <a name="exercise-4"></a>Exercise 4 – Configure Network Access
+
 <details>
+
 <summary>▶ View Details</summary>
 
 Get VM IP
@@ -115,8 +121,11 @@ az network nsg rule create \
   --destination-port-range 80 \
   --access Allow
 
+</details>
+
 ## <a name="exercise-5"></a>Exercise 5 – Create and Configure a Storage Blob
 
+<details> 
 
 | Setting                    | Value                           |
 | -------------------------- | ------------------------------- |
@@ -147,4 +156,7 @@ Change Blob Access Level
 --Delete unused resources
 --Or delete entire resource group to save costs
 
+</details> 
+
 #Azure #CloudComputing #VirtualMachine #Nginx #StorageBlob #MicrosoftLearn #DevOps
+
