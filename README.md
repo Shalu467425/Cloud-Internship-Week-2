@@ -38,8 +38,6 @@
 ---
 
 ## <a name="exercise-2"></a>Exercise 2 – Create an Azure Resource
-<details>
-<summary>▶ View Details</summary>
 
 **Steps:**
 1. Sign in to the Azure Portal.
@@ -50,11 +48,6 @@
 ### Verify Resources
 1. Go to **Home → Resource Groups**.
 2. Select the sandbox-created resource group.
-
-🖼 *[Screenshot Placeholder – Resource Group List]*
-
-</details>
-
 ---
 
 ## <a name="exercise-3"></a>Exercise 3 – Create a Linux VM and Install Nginx
@@ -82,8 +75,10 @@ az vm extension set \
   --settings '{"fileUris":["https://raw.githubusercontent.com/MicrosoftDocs/mslearn-welcome-to-azure/master/configure-nginx.sh"]}' \
   --protected-settings '{"commandToExecute": "./configure-nginx.sh"}'
 
-## <a name="exercise-2"></a>Exercise 4 – Configure Network Access
-<details> <summary>▶ View Details</summary>
+## <a name="exercise-4"></a>Exercise 4 – Configure Network Access
+<details>
+<summary>▶ View Details</summary>
+
 Get VM IP
 
 IPADDRESS="$(az vm list-ip-addresses \
@@ -120,7 +115,7 @@ az network nsg rule create \
   --destination-port-range 80 \
   --access Allow
 
-## <a name="exercise-1"></a>Exercise 5 – Create and Configure a Storage Blob
+## <a name="exercise-5"></a>Exercise 5 – Create and Configure a Storage Blob
 
 
 | Setting                    | Value                           |
