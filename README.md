@@ -8,6 +8,8 @@
 ## 📖 Overview
 This document records the **Week 2** tasks completed during the Cloud Internship, focusing on exploring the Microsoft Azure environment, creating resources, configuring networking, and managing storage.
 
+_All tasks were performed in the Azure Learn Sandbox._
+
 ---
 
 ## 🏗 Introduction to Microsoft Azure
@@ -32,8 +34,6 @@ The architecture typically consists of:
 - **Task 2:** Use the Bash CLI  
 - **Task 3:** Use Azure CLI Interactive Mode  
 
-_All tasks were performed in the Azure Learn Sandbox._
-
 ---
 
 ### **Exercise 2 — Create an Azure Resource**
@@ -47,9 +47,7 @@ _All tasks were performed in the Azure Learn Sandbox._
 1. Navigate to **Home** → **Resource Groups**.
 2. Select the sandbox resource group.
 3. Confirm the created resources are listed.
-
-_Cleanup is done automatically by the sandbox._
-
+4. 
 ---
 
 ### **Exercise 3 — Create an Azure Virtual Machine (CLI)**
@@ -84,9 +82,9 @@ Use curl to test connectivity:
 
 ```bash
 curl --connect-timeout 5 http://$IPADDRESS
-Task 2: View Current Network Security Rules
 ```
-list the Network Security Groups (NSGs) 
+
+Task 2: View Current Network Security Rules
 
 ```bash
 az network nsg list \
@@ -114,7 +112,7 @@ az network nsg rule create \
   --priority 100 \
   --destination-port-range 80 \
   --access Allow
-```bash
+```
 
 Verify:
 
@@ -126,7 +124,7 @@ az network nsg rule list \
   --output table
 ```
 
-### **Exercise 5 — Create and Manage Storage Blob
+### **Exercise 5 — Create and Manage Storage Blob**
 
 Task 1: Create a Storage Account
 
@@ -158,7 +156,6 @@ Sandbox automatically deletes all created resources.
 In personal subscriptions, remove unused resources to avoid charges:
 
 az group delete --name <resource-group-name> --yes --no-wait
-✅ End of Week 2 Documentation
 
 ---
 
