@@ -54,6 +54,7 @@ _Cleanup is done automatically by the sandbox._
 
 ### **Exercise 3 — Create an Azure Virtual Machine (CLI)**
 **Task:** Deploy a Linux Virtual Machine
+
 ```bash
 az vm create \
   --resource-group "<sandbox-resource-group>" \
@@ -62,33 +63,49 @@ az vm create \
   --image Ubuntu2204 \
   --admin-username azureuser \
   --generate-ssh-keys
+```
 
-Exercise 4 — Configure Network Access
+### **Exercise 4 — Configure Network Access***
 Task 1: Retrieve VM Public IP
 
+```bash
 IPADDRESS="$(az vm list-ip-addresses \
 --resource-group "<sandbox-resource-group>" \
 --name my-vm \
 --query "[].virtualMachine.network.publicIpAddresses[*].ipAddress" \
 --output tsv)"
+```
 
+```bash
 echo $IPADDRESS
+```
+
 Use curl to test connectivity:
 
+```bash
 curl --connect-timeout 5 http://$IPADDRESS
 Task 2: View Current Network Security Rules
+```
+list the Network Security Groups (NSGs) 
 
+```bash
 az network nsg list \
   --resource-group "<sandbox-resource-group>" \
   --query '[].name' --output tsv
+```
+list the Network Security Groups (NSGs) rules
 
+```bash
 az network nsg rule list \
   --resource-group "<sandbox-resource-group>" \
   --nsg-name my-vmNSG \
   --query '[].{Name:name, Priority:priority, Port:destinationPortRange, Access:access}' \
   --output table
+```
+
 Task 3: Allow HTTP Traffic
 
+```bash
 az network nsg rule create \
   --resource-group "<sandbox-resource-group>" \
   --nsg-name my-vmNSG \
@@ -97,48 +114,43 @@ az network nsg rule create \
   --priority 100 \
   --destination-port-range 80 \
   --access Allow
+```bash
 
 Verify:
 
+```bash
 az network nsg rule list \
   --resource-group "<sandbox-resource-group>" \
   --nsg-name my-vmNSG \
   --query '[].{Name:name, Priority:priority, Port:destinationPortRange, Access:access}' \
   --output table
-Exercise 5 — Create and Manage Storage Blob
+```
+
+### **Exercise 5 — Create and Manage Storage Blob
+
 Task 1: Create a Storage Account
 
 Azure Portal → Create a Resource → Storage Account → Create.
 
 Fill in:
-
-Subscription: Concierge Subscription
-
-Resource Group: Sandbox resource group
-
-Storage Account Name: Unique name
-
-Performance: Standard
-
-Redundancy: Locally Redundant Storage (LRS)
-
-Anonymous Access: Enabled (on individual containers)
-
-Review + Create → Create → Go to Resource.
+--Subscription: Concierge Subscription
+--Resource Group: Sandbox resource group
+--Storage Account Name: Unique name
+--Performance: Standard
+--Redundancy: Locally Redundant Storage (LRS)
+--Anonymous Access: Enabled (on individual containers)
+--Review + Create → Create → Go to Resource.
 
 Task 2: Create a Blob Container and Upload a File
 
-Data Storage → Containers → + Container (set access to Private).
-
-Upload file via Upload option.
-
-Attempt to open the blob URL (expect access denied).
+--Data Storage → Containers → + Container (set access to Private).
+--Upload file via Upload option.
+--Attempt to open the blob URL (expect access denied).
 
 Task 3: Change Blob Access Level
 
-Select the container → Change Access Level → Blob (Anonymous Read Access) → OK.
-
-Refresh blob URL to verify public access.
+--Select the container → Change Access Level → Blob (Anonymous Read Access) → OK.
+--Refresh blob URL to verify public access.
 
 🧹 Cleanup
 Sandbox automatically deletes all created resources.
@@ -150,3 +162,4 @@ az group delete --name <resource-group-name> --yes --no-wait
 
 ---
 
+#Azure #CloudComputing #VirtualMachine #StorageBlob #MicrosoftLearn #DevOps
