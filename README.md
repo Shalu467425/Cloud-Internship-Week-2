@@ -82,7 +82,7 @@ az vm extension set \
   --settings '{"fileUris":["https://raw.githubusercontent.com/MicrosoftDocs/mslearn-welcome-to-azure/master/configure-nginx.sh"]}' \
   --protected-settings '{"commandToExecute": "./configure-nginx.sh"}'
 
-<a name="exercise-4"></a>Exercise 4 – Configure Network Access
+## <a name="exercise-2"></a>Exercise 4 – Configure Network Access
 <details> <summary>▶ View Details</summary>
 Get VM IP
 
@@ -120,7 +120,8 @@ az network nsg rule create \
   --destination-port-range 80 \
   --access Allow
 
-<a name="exercise-5"></a>Exercise 5 – Create and Configure a Storage Blob
+## <a name="exercise-1"></a>Exercise 5 – Create and Configure a Storage Blob
+
 
 | Setting                    | Value                           |
 | -------------------------- | ------------------------------- |
