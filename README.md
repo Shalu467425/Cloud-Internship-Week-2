@@ -39,6 +39,8 @@
 
 ## <a name="exercise-2"></a>Exercise 2 – Create an Azure Resource
 <details>
+
+<summary>▶ View Details</summary>
   
 **Steps:**
 1. Sign in to the Azure Portal.
@@ -123,9 +125,11 @@ az network nsg rule create \
 
 </details>
 
-## <a name="exercise-5"></a>Exercise 5 – Create and Configure a Storage Blob
+##<a name="exercise-5"></a>Exercise 5 – Create and Configure a Storage Blob
 
-<details> 
+<details>
+
+<summary>▶ View Details</summary>
 
 | Setting                    | Value                           |
 | -------------------------- | ------------------------------- |
