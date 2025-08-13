@@ -131,24 +131,24 @@ Task 1: Create a Storage Account
 Azure Portal → Create a Resource → Storage Account → Create.
 
 Fill in:
--Subscription: Concierge Subscription
--Resource Group: Sandbox resource group
--Storage Account Name: Unique name
--Performance: Standard
--Redundancy: Locally Redundant Storage (LRS)
--Anonymous Access: Enabled (on individual containers)
--Review + Create → Create → Go to Resource.
+- Subscription: Concierge Subscription
+- Resource Group: Sandbox resource group
+- Storage Account Name: Unique name
+- Performance: Standard
+- Redundancy: Locally Redundant Storage (LRS)
+- Anonymous Access: Enabled (on individual containers)
+- Review + Create → Create → Go to Resource.
 
 Task 2: Create a Blob Container and Upload a File
 
--Data Storage → Containers → + Container (set access to Private).
--Upload file via Upload option.
--Attempt to open the blob URL (expect access denied).
+- Data Storage → Containers → + Container (set access to Private).
+- Upload file via Upload option.
+- Attempt to open the blob URL (expect access denied).
 
 Task 3: Change Blob Access Level
 
--Select the container → Change Access Level → Blob (Anonymous Read Access) → OK.
--Refresh blob URL to verify public access.
+- Select the container → Change Access Level → Blob (Anonymous Read Access) → OK.
+- Refresh blob URL to verify public access.
 
 🧹 Cleanup
 Sandbox automatically deletes all created resources.
