@@ -63,6 +63,8 @@ az vm create \
   --generate-ssh-keys
 ```
 
+---
+
 ### **Exercise 4 — Configure Network Access***
 Task 1: Retrieve VM Public IP
 
@@ -123,6 +125,8 @@ az network nsg rule list \
   --query '[].{Name:name, Priority:priority, Port:destinationPortRange, Access:access}' \
   --output table
 ```
+
+---
 
 ### **Exercise 5 — Create and Manage Storage Blob**
 
